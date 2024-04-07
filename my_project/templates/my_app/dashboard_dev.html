@@ -1,0 +1,34 @@
+{% extends 'my_app/home.html' %}
+
+{% block head_block %}
+
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+    <h1 style="margin-top: 3rem;">Bug-uri:</h1>
+    <hr>
+    <br>
+    <div id="dashboard">
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th>Descriere:</th>
+              <th>Stare:</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for j in model %}
+            <tr>
+              <td>{{ j.descriere }}</td>
+              {% if verificare %}
+              <td>Unstable</td>
+              {% else %}
+              <td>Stable</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

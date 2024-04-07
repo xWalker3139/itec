@@ -1,0 +1,150 @@
+{% extends 'my_app/home.html' %}
+
+{% block head_block %}
+<style>
+  #table1{
+    margin-top: 3rem;
+  }
+</style>
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-9 col-md-4 col-sm-6">
+      <h1 style="margin-top: 3rem;">Dashboard Aplicatii</h1>
+    </div>
+    <div class="col-lg-3 col-md-4 col-sm-6">
+      <a href="{% url 'register_name' %}" class="btn btn-outline-info" style="margin-top: 3rem;">Creeaza o Aplicatie</a>
+    </div>
+  </div>
+  <br>
+    <table class="table">
+      <thead class="thead-light">
+        <tr>
+          <th>Numele:</th>
+          <th>Descriere:</th>
+          <th>Creeaza un Endpoint</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for i in model1 %}
+        <tr>
+          <td>{{ i.nume }}</td>
+          <td>{{ i.descriere }}</td>
+          <td><a href="{% url 'register_endpoint' pk=i.pk %}" class="btn btn-outline-danger">Creeaza un Endpoint:</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <h1>Dashboard Endpoint-uri</h1>
+    <br>
+    <div id="dashboard">
+        <table class="table">
+          <thead class="thead-light">
+            <tr>
+              <th>Endpoint:</th>
+              <th>Detalii:</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for j in model2 %}
+            <tr>
+              <td>{{ j.nume }}</td>
+              <td><a href="{% url 'status' pk=j.pk %}" class="btn btn-outline-primary">Vezi detalii</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <br>
+    <a href="{% url 'dashboard_dev' %}" class="btn btn-warning">Sectiune Bug-uri</a>
+    <br>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</div>
+<script type="text/javascript">
+  document.getElementById('notificari').addEventListener('click', function() {
+      fetch('/marcheaza-notificari-citite/', {
+          method: 'POST',
+          headers: {
+              'X-CSRFToken': '{{ csrf_token }}',
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({}),
+      })
+      .then(response => response.json())
+      .then(data => {
+          console.log(data); // Logică pentru a actualiza UI-ul, de exemplu, eliminarea badge-ului cu numărul de notificări necitite
+      })
+      .catch(error => console.error('Eroare AJAX:', error));
+  });
+</script>
+<!--Hero area end-->
+<div class="hero_area">
+  <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+      <defs>
+          <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+      </defs>
+      <g class="parallax">
+          <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(134,182,246,0.7)" />
+          <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(134,182,246,0.5)" />
+          <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(134,182,246,0.3)" />
+          <use xlink:href="#gentle-wave" x="48" y="7" fill="rgba(134,182,246,0.3)" />
+      </g>
+  </svg>
+  <style>
+
+.waves {
+  position: absolute;
+  width: 100%;
+  height: 15vh;
+  min-height: 100px;
+  max-height: 150px;
+  bottom: 0;
+  left: 0;
+  top: 50rem;
+}
+
+.parallax>use {
+  animation: move-forever 25s cubic-bezier(.55, .5, .45, .5) infinite;
+}
+
+.parallax>use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+
+.parallax>use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+
+.parallax>use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+
+.parallax>use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+
+@keyframes move-forever {
+  0% {
+      transform: translate3d(-90px, 0, 0);
+  }
+
+  100% {
+      transform: translate3d(85px, 0, 0);
+  }
+}
+
+@media (max-width: 768px) {
+  .waves {
+      height: 40px;
+      min-height: 40px;
+  }
+}
+  </style>
+ </div>
+</div>
+{% endblock %}
